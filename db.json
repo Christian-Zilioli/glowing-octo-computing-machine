@@ -1,0 +1,529 @@
+{
+  "readings": [
+    {
+      "sensor": "vento",
+      "value": 7.8,
+      "unit": "km/h",
+      "timestamp": 1777463037205
+    },
+    {
+      "sensor": "temperatura",
+      "value": 21.6,
+      "unit": "°C",
+      "timestamp": 1777463037205
+    },
+    {
+      "sensor": "umidita",
+      "value": 53,
+      "unit": "%",
+      "timestamp": 1777463037205
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1992.52,
+      "unit": "€",
+      "timestamp": 1777463042089
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66305,
+      "unit": "€",
+      "timestamp": 1777463042089
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66305,
+      "unit": "€",
+      "timestamp": 1777463072066
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1992.52,
+      "unit": "€",
+      "timestamp": 1777463072066
+    },
+    {
+      "sensor": "temperatura",
+      "value": 21.6,
+      "unit": "°C",
+      "timestamp": 1777463097200
+    },
+    {
+      "sensor": "vento",
+      "value": 7.8,
+      "unit": "km/h",
+      "timestamp": 1777463097200
+    },
+    {
+      "sensor": "umidita",
+      "value": 53,
+      "unit": "%",
+      "timestamp": 1777463097200
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.82,
+      "unit": "€",
+      "timestamp": 1777463102183
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66283,
+      "unit": "€",
+      "timestamp": 1777463102183
+    },
+    {
+      "sensor": "sismica",
+      "value": 0.88,
+      "unit": "magnitudo",
+      "luogo": "14 km WSW of Lake Nacimiento, CA",
+      "timestamp": 1777463106690
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66283,
+      "unit": "€",
+      "timestamp": 1777463132097
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.82,
+      "unit": "€",
+      "timestamp": 1777463132097
+    },
+    {
+      "sensor": "vento",
+      "value": 7.4,
+      "unit": "km/h",
+      "timestamp": 1777463157216
+    },
+    {
+      "sensor": "temperatura",
+      "value": 21.8,
+      "unit": "°C",
+      "timestamp": 1777463157216
+    },
+    {
+      "sensor": "umidita",
+      "value": 52,
+      "unit": "%",
+      "timestamp": 1777463157216
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.28,
+      "unit": "€",
+      "timestamp": 1777463162199
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66271,
+      "unit": "€",
+      "timestamp": 1777463162199
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.28,
+      "unit": "€",
+      "timestamp": 1777463192074
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66271,
+      "unit": "€",
+      "timestamp": 1777463192074
+    },
+    {
+      "sensor": "vento",
+      "value": 7.4,
+      "unit": "km/h",
+      "timestamp": 1777463217234
+    },
+    {
+      "sensor": "temperatura",
+      "value": 21.8,
+      "unit": "°C",
+      "timestamp": 1777463217234
+    },
+    {
+      "sensor": "umidita",
+      "value": 52,
+      "unit": "%",
+      "timestamp": 1777463217234
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66293,
+      "unit": "€",
+      "timestamp": 1777463222199
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.84,
+      "unit": "€",
+      "timestamp": 1777463222199
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66293,
+      "unit": "€",
+      "timestamp": 1777463252090
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.84,
+      "unit": "€",
+      "timestamp": 1777463252090
+    },
+    {
+      "sensor": "vento",
+      "value": 7.4,
+      "unit": "km/h",
+      "timestamp": 1777463277258
+    },
+    {
+      "sensor": "temperatura",
+      "value": 21.8,
+      "unit": "°C",
+      "timestamp": 1777463277258
+    },
+    {
+      "sensor": "umidita",
+      "value": 52,
+      "unit": "%",
+      "timestamp": 1777463277258
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66296,
+      "unit": "€",
+      "timestamp": 1777463282228
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.99,
+      "unit": "€",
+      "timestamp": 1777463282228
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.99,
+      "unit": "€",
+      "timestamp": 1777463312100
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66296,
+      "unit": "€",
+      "timestamp": 1777463312099
+    },
+    {
+      "sensor": "vento",
+      "value": 7.4,
+      "unit": "km/h",
+      "timestamp": 1777463337257
+    },
+    {
+      "sensor": "temperatura",
+      "value": 21.8,
+      "unit": "°C",
+      "timestamp": 1777463337257
+    },
+    {
+      "sensor": "umidita",
+      "value": 52,
+      "unit": "%",
+      "timestamp": 1777463337257
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.99,
+      "unit": "€",
+      "timestamp": 1777463342108
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66296,
+      "unit": "€",
+      "timestamp": 1777463342107
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.83,
+      "unit": "€",
+      "timestamp": 1777463372202
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66305,
+      "unit": "€",
+      "timestamp": 1777463372202
+    },
+    {
+      "sensor": "temperatura",
+      "value": 21.8,
+      "unit": "°C",
+      "timestamp": 1777463397278
+    },
+    {
+      "sensor": "vento",
+      "value": 7.4,
+      "unit": "km/h",
+      "timestamp": 1777463397278
+    },
+    {
+      "sensor": "umidita",
+      "value": 52,
+      "unit": "%",
+      "timestamp": 1777463397278
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.83,
+      "unit": "€",
+      "timestamp": 1777463402110
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66305,
+      "unit": "€",
+      "timestamp": 1777463402110
+    },
+    {
+      "sensor": "sismica",
+      "value": 0.88,
+      "unit": "magnitudo",
+      "luogo": "14 km WSW of Lake Nacimiento, CA",
+      "timestamp": 1777463406688
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66282,
+      "unit": "€",
+      "timestamp": 1777463432238
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.62,
+      "unit": "€",
+      "timestamp": 1777463432238
+    },
+    {
+      "sensor": "vento",
+      "value": 7.4,
+      "unit": "km/h",
+      "timestamp": 1777463457276
+    },
+    {
+      "sensor": "temperatura",
+      "value": 21.8,
+      "unit": "°C",
+      "timestamp": 1777463457276
+    },
+    {
+      "sensor": "umidita",
+      "value": 52,
+      "unit": "%",
+      "timestamp": 1777463457276
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66282,
+      "unit": "€",
+      "timestamp": 1777463462147
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.62,
+      "unit": "€",
+      "timestamp": 1777463462147
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66260,
+      "unit": "€",
+      "timestamp": 1777463492283
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.52,
+      "unit": "€",
+      "timestamp": 1777463492283
+    },
+    {
+      "sensor": "vento",
+      "value": 7.4,
+      "unit": "km/h",
+      "timestamp": 1777463517293
+    },
+    {
+      "sensor": "temperatura",
+      "value": 21.8,
+      "unit": "°C",
+      "timestamp": 1777463517293
+    },
+    {
+      "sensor": "umidita",
+      "value": 52,
+      "unit": "%",
+      "timestamp": 1777463517294
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.52,
+      "unit": "€",
+      "timestamp": 1777463522139
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66260,
+      "unit": "€",
+      "timestamp": 1777463522139
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66260,
+      "unit": "€",
+      "timestamp": 1777463552147
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.52,
+      "unit": "€",
+      "timestamp": 1777463552147
+    },
+    {
+      "sensor": "temperatura",
+      "value": 21.8,
+      "unit": "°C",
+      "timestamp": 1777463577311
+    },
+    {
+      "sensor": "vento",
+      "value": 7.4,
+      "unit": "km/h",
+      "timestamp": 1777463577311
+    },
+    {
+      "sensor": "umidita",
+      "value": 52,
+      "unit": "%",
+      "timestamp": 1777463577311
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66252,
+      "unit": "€",
+      "timestamp": 1777463582287
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.59,
+      "unit": "€",
+      "timestamp": 1777463582287
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1991.59,
+      "unit": "€",
+      "timestamp": 1777463612174
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66252,
+      "unit": "€",
+      "timestamp": 1777463612174
+    },
+    {
+      "sensor": "temperatura",
+      "value": 21.8,
+      "unit": "°C",
+      "timestamp": 1777463637291
+    },
+    {
+      "sensor": "vento",
+      "value": 7.4,
+      "unit": "km/h",
+      "timestamp": 1777463637291
+    },
+    {
+      "sensor": "umidita",
+      "value": 52,
+      "unit": "%",
+      "timestamp": 1777463637291
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66266,
+      "unit": "€",
+      "timestamp": 1777463642313
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1992.23,
+      "unit": "€",
+      "timestamp": 1777463642313
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1992.23,
+      "unit": "€",
+      "timestamp": 1777463672189
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66266,
+      "unit": "€",
+      "timestamp": 1777463672189
+    },
+    {
+      "sensor": "vento",
+      "value": 7.4,
+      "unit": "km/h",
+      "timestamp": 1777463697311
+    },
+    {
+      "sensor": "temperatura",
+      "value": 21.8,
+      "unit": "°C",
+      "timestamp": 1777463697311
+    },
+    {
+      "sensor": "umidita",
+      "value": 52,
+      "unit": "%",
+      "timestamp": 1777463697311
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66266,
+      "unit": "€",
+      "timestamp": 1777463702199
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1992.23,
+      "unit": "€",
+      "timestamp": 1777463702199
+    },
+    {
+      "sensor": "sismica",
+      "value": 1.00028452861671,
+      "unit": "magnitudo",
+      "luogo": "13 km NE of Thousand Palms, CA",
+      "timestamp": 1777463706707
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 66296,
+      "unit": "€",
+      "timestamp": 1777463732322
+    },
+    {
+      "sensor": "ethereum",
+      "value": 1992.73,
+      "unit": "€",
+      "timestamp": 1777463732323
+    }
+  ]
+}

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IoT Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0a0c0f;
+      --surface:  #111418;
+      --border:   #1e2530;
+      --accent:   #00e5ff;
+      --accent2:  #ff6b35;
+      --green:    #39d98a;
+      --yellow:   #f5c518;
+      --red:      #ff4757;
+      --text:     #c8d6e5;
+      --muted:    #4a5568;
+      --mono:     'Share Tech Mono', monospace;
+      --sans:     'Barlow', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--accent); }
+      50%       { opacity: 0.4; box-shadow: 0 0 4px var(--accent); }
+    }
+
+    .logo-text {
+      font-family: var(--mono);
+      font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    #clock {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-family: var(--mono);
+      color: var(--green);
+      border: 1px solid var(--green);
+      padding: 0.25rem 0.75rem;
+      border-radius: 2px;
+      letter-spacing: 0.08em;
+    }
+
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    main {
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* SENSOR CARDS GRID */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.25rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.2s;
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--card-accent, var(--accent));
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-sensor {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .card-value {
+      font-family: var(--mono);
+      font-size: 2.4rem;
+      font-weight: 400;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .card-unit {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .card-time {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--muted);
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-top: 0.75rem;
+      overflow: hidden;
+    }
+
+    .card-bar-fill {
+      height: 100%;
+      background: var(--card-accent, var(--accent));
+      border-radius: 2px;
+      transition: width 1s ease;
+    }
+
+    /* CHARTS */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.25rem;
+      animation: fadeIn 0.5s ease both;
+    }
+
+    .chart-title {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 140px;
+    }
+
+    /* LOG TABLE */
+    .log-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.25rem;
+      animation: fadeIn 0.6s ease both;
+    }
+
+    .log-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+    }
+
+    .log-table th {
+      text-align: left;
+      color: var(--muted);
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      padding: 0 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .log-table td {
+      padding: 0.5rem;
+      border-bottom: 1px solid rgba(30,37,48,0.5);
+      color: var(--text);
+    }
+
+    .log-table tr:last-child td { border-bottom: none; }
+
+    .log-table tr {
+      transition: background 0.15s;
+    }
+
+    .log-table tr:hover td {
+      background: rgba(0, 229, 255, 0.03);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 2px;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+
+    .empty-state::before {
+      content: '// ';
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    <span class="logo-text">IOT_MONITOR v1.0</span>
+  </div>
+  <div class="header-right">
+    <span id="clock">--:--:--</span>
+    <div class="status-badge">
+      <div class="status-dot"></div>
+      LIVE
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="section-label">sensori attivi</div>
+  <div class="cards-grid" id="cards-grid">
+    <div class="empty-state" style="grid-column:1/-1">in attesa dei dati dai sensori...</div>
+  </div>
+
+  <div class="section-label">andamento storico</div>
+  <div class="charts-grid" id="charts-grid"></div>
+
+  <div class="section-label">log letture recenti</div>
+  <div class="log-card">
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th>ora</th>
+          <th>sensore</th>
+          <th>valore</th>
+          <th>unità</th>
+        </tr>
+      </thead>
+      <tbody id="log-body">
+        <tr><td colspan="4" class="empty-state">nessuna lettura</td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<script>
+  const COLORI = {
+    temperatura: { accent: '#ff6b35', chart: 'rgba(255,107,53,0.8)', fill: 'rgba(255,107,53,0.1)' },
+    umidita:     { accent: '#00e5ff', chart: 'rgba(0,229,255,0.8)',   fill: 'rgba(0,229,255,0.1)' },
+    vento:       { accent: '#39d98a', chart: 'rgba(57,217,138,0.8)',  fill: 'rgba(57,217,138,0.1)' },
+    bitcoin:     { accent: '#f5c518', chart: 'rgba(245,197,24,0.8)',  fill: 'rgba(245,197,24,0.1)' },
+    ethereum:    { accent: '#a78bfa', chart: 'rgba(167,139,250,0.8)', fill: 'rgba(167,139,250,0.1)' },
+    sismica:     { accent: '#ff4757', chart: 'rgba(255,71,87,0.8)',   fill: 'rgba(255,71,87,0.1)' },
+  };
+
+  const DEFAULT_COL = { accent: '#00e5ff', chart: 'rgba(0,229,255,0.8)', fill: 'rgba(0,229,255,0.1)' };
+
+  const RANGE = {
+    temperatura: [0, 45],
+    umidita:     [0, 100],
+    vento:       [0, 100],
+    bitcoin:     [0, 120000],
+    ethereum:    [0, 6000],
+    sismica:     [0, 9],
+  };
+
+  const charts = {};
+  const chartData = {};
+
+  function colore(sensor) {
+    return COLORI[sensor] || DEFAULT_COL;
+  }
+
+  function formattaOra(ts) {
+    return new Date(ts).toLocaleTimeString('it-IT');
+  }
+
+  function barPercent(sensor, value) {
+    const r = RANGE[sensor] || [0, 100];
+    return Math.min(100, Math.max(0, ((value - r[0]) / (r[1] - r[0])) * 100));
+  }
+
+  function aggiornaCards(dati) {
+    const grid = document.getElementById('cards-grid');
+    const sensori = Object.values(dati);
+    if (sensori.length === 0) return;
+
+    sensori.forEach((d, i) => {
+      const c = colore(d.sensor);
+      let card = document.getElementById('card-' + d.sensor);
+      if (!card) {
+        card = document.createElement('div');
+        card.className = 'card';
+        card.id = 'card-' + d.sensor;
+        card.style.setProperty('--card-accent', c.accent);
+        card.style.animationDelay = (i * 0.06) + 's';
+        card.innerHTML = `
+          <div class="card-sensor">${d.sensor}</div>
+          <div class="card-value" id="val-${d.sensor}">--</div>
+          <div class="card-unit">${d.unit || ''}</div>
+          <div class="card-bar"><div class="card-bar-fill" id="bar-${d.sensor}" style="width:0%"></div></div>
+          <div class="card-time" id="time-${d.sensor}">--</div>
+        `;
+        if (grid.querySelector('.empty-state')) grid.innerHTML = '';
+        grid.appendChild(card);
+      }
+
+      document.getElementById('val-' + d.sensor).textContent =
+        typeof d.value === 'number' ? (d.value > 999 ? d.value.toLocaleString('it-IT') : d.value) : d.value;
+      document.getElementById('bar-' + d.sensor).style.width = barPercent(d.sensor, d.value) + '%';
+      document.getElementById('time-' + d.sensor).textContent = 'upd ' + formattaOra(d.timestamp);
+    });
+  }
+
+  function aggiornaGrafici(history) {
+    const bySensor = {};
+    history.forEach(r => {
+      if (!bySensor[r.sensor]) bySensor[r.sensor] = [];
+      bySensor[r.sensor].push(r);
+    });
+
+    const chartsGrid = document.getElementById('charts-grid');
+
+    Object.entries(bySensor).forEach(([sensor, readings]) => {
+      const ultimi = readings.slice(-30);
+      const labels = ultimi.map(r => formattaOra(r.timestamp));
+      const values = ultimi.map(r => r.value);
+      const c = colore(sensor);
+
+      if (!charts[sensor]) {
+        const wrap = document.createElement('div');
+        wrap.className = 'chart-card';
+        wrap.innerHTML = `
+          <div class="chart-title">${sensor} — ultime ${ultimi.length} letture</div>
+          <div class="chart-wrap"><canvas id="chart-${sensor}"></canvas></div>
+        `;
+        chartsGrid.appendChild(wrap);
+
+        const ctx = document.getElementById('chart-' + sensor).getContext('2d');
+        charts[sensor] = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [{
+              data: values,
+              borderColor: c.chart,
+              backgroundColor: c.fill,
+              borderWidth: 1.5,
+              pointRadius: 0,
+              pointHoverRadius: 4,
+              tension: 0.4,
+              fill: true,
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 400 },
+            plugins: { legend: { display: false }, tooltip: {
+              backgroundColor: '#111418',
+              borderColor: c.accent,
+              borderWidth: 1,
+              titleColor: '#4a5568',
+              bodyColor: '#fff',
+              titleFont: { family: 'Share Tech Mono', size: 10 },
+              bodyFont: { family: 'Share Tech Mono', size: 12 },
+            }},
+            scales: {
+              x: { display: false },
+              y: {
+                grid: { color: '#1e2530', drawBorder: false },
+                ticks: { color: '#4a5568', font: { family: 'Share Tech Mono', size: 10 }, maxTicksLimit: 4 },
+              }
+            }
+          }
+        });
+      } else {
+        charts[sensor].data.labels = labels;
+        charts[sensor].data.datasets[0].data = values;
+        charts[sensor].update('none');
+        document.querySelector(`#chart-${sensor}`).closest('.chart-card').querySelector('.chart-title').textContent =
+          `${sensor} — ultime ${ultimi.length} letture`;
+      }
+    });
+  }
+
+  function aggiornaLog(history) {
+    const tbody = document.getElementById('log-body');
+    const ultimi = [...history].reverse().slice(0, 20);
+    if (ultimi.length === 0) return;
+
+    tbody.innerHTML = ultimi.map(r => {
+      const c = colore(r.sensor);
+      return `
+        <tr>
+          <td>${formattaOra(r.timestamp)}</td>
+          <td><span class="tag" style="background:${c.accent}22;color:${c.accent};border:1px solid ${c.accent}44">${r.sensor}</span></td>
+          <td>${typeof r.value === 'number' && r.value > 999 ? r.value.toLocaleString('it-IT') : r.value}</td>
+          <td style="color:var(--muted)">${r.unit || '—'}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  async function aggiorna() {
+    try {
+      const [resData, resHistory] = await Promise.all([
+        fetch('/api/data'),
+        fetch('/api/history')
+      ]);
+      const dati    = await resData.json();
+      const history = await resHistory.json();
+
+      aggiornaCards(dati);
+      aggiornaGrafici(history.readings || history);
+      aggiornaLog(history.readings || history);
+    } catch (e) {
+      console.error('Errore aggiornamento:', e);
+    }
+  }
+
+  function aggiornaClock() {
+    document.getElementById('clock').textContent =
+      new Date().toLocaleTimeString('it-IT', { hour12: false });
+  }
+
+  aggiorna();
+  setInterval(aggiorna, 5000);
+  setInterval(aggiornaClock, 1000);
+  aggiornaClock();
+</script>
+</body>
+</html>

@@ -651,6 +651,55 @@
       "value": 2048.91,
       "unit": "€",
       "timestamp": 1778064338554
+    },
+    {
+      "sensor": "temperatura",
+      "value": 16.8,
+      "unit": "°C",
+      "timestamp": 1778066422148
+    },
+    {
+      "sensor": "umidita",
+      "value": 79,
+      "unit": "%",
+      "timestamp": 1778066422150
+    },
+    {
+      "sensor": "vento",
+      "value": 11.3,
+      "unit": "km/h",
+      "timestamp": 1778066422150
+    },
+    {
+      "sensor": "ethereum",
+      "value": 2051.09,
+      "unit": "€",
+      "timestamp": 1778066422605
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 70031,
+      "unit": "€",
+      "timestamp": 1778066422604
+    },
+    {
+      "sensor": "sismica",
+      "value": 2.55,
+      "unit": "magnitudo",
+      "luogo": "19 km SE of Silver Springs, Nevada",
+      "timestamp": 1778066423545
+    },
+    {
+      "sensor": "ethereum",
+      "value": 2051.01,
+      "unit": "€",
+      "timestamp": 1778066452632
+    },
+    {
+      "sensor": "bitcoin",
+      "value": 70019,
+      "unit": "€",
+      "timestamp": 1778066452632
     }
   ]
 }

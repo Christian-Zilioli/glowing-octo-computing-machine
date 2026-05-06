@@ -1,45 +1,70 @@
 const fs = require('fs');
 const PATH = './db.json';
+const MAX_READINGS = 200;   // massimo storico per sensore
+const FLUSH_INTERVAL = 5000; // scrivi su disco ogni 5 secondi
 
-let scrittura = false;
-let coda = [];
+// ── DB IN MEMORIA ──────────────────────────────────────────
+let db = { readings: [] };
+let dirty = false; // true = ci sono dati da salvare
 
-function leggiDB(callback) {
-  fs.readFile(PATH, 'utf8', (err, data) => {
-    if (err) return callback(err, null);
-    try {
-      callback(null, JSON.parse(data));
-    } catch (e) {
-      callback(e, null);
-    }
-  });
+// Carica il file all'avvio (una volta sola)
+function caricaDB() {
+  try {
+    const raw = fs.readFileSync(PATH, 'utf8').trim();
+    db = JSON.parse(raw);
+    if (!Array.isArray(db.readings)) db.readings = [];
+    console.log(`[DB] Caricati ${db.readings.length} record da db.json`);
+  } catch (e) {
+    console.warn('[DB] db.json non trovato o corrotto, parto da zero');
+    db = { readings: [] };
+    salvaSync(); // crea il file pulito subito
+  }
 }
 
-function processaCoda() {
-  if (scrittura || coda.length === 0) return;
-  scrittura = true;
-  const { lettura, callback } = coda.shift();
+// Scrittura sincrona (usata solo all'avvio se il file manca)
+function salvaSync() {
+  fs.writeFileSync(PATH, JSON.stringify(db, null, 2), 'utf8');
+}
 
-  leggiDB((err, db) => {
-    if (err) {
-      scrittura = false;
-      callback(err);
-      processaCoda();
-      return;
-    }
-    db.readings.push(lettura);
-    if (db.readings.length > 200) db.readings.shift();
-    fs.writeFile(PATH, JSON.stringify(db, null, 2), (err) => {
-      scrittura = false;
-      callback(err);
-      processaCoda();
+// Scrittura asincrona periodica (ogni FLUSH_INTERVAL ms)
+function flush() {
+  if (!dirty) return;
+  const snapshot = JSON.stringify(db, null, 2);
+  dirty = false;
+  fs.writeFile(PATH + '.tmp', snapshot, 'utf8', (err) => {
+    if (err) { console.error('[DB] Errore scrittura tmp:', err); return; }
+    fs.rename(PATH + '.tmp', PATH, (err2) => {
+      if (err2) console.error('[DB] Errore rename:', err2);
     });
   });
 }
 
-function scriviDB(nuovaLettura, callback) {
-  coda.push({ lettura: nuovaLettura, callback });
-  processaCoda();
+// ── API PUBBLICA ────────────────────────────────────────────
+
+// Aggiunge una lettura (sincrono, solo in memoria)
+function scriviDB(lettura, callback) {
+  db.readings.push(lettura);
+  if (db.readings.length > MAX_READINGS) db.readings.shift();
+  dirty = true;
+  if (callback) callback(null);
 }
+
+// Legge il DB (sincrono dalla memoria, rapidissimo)
+function leggiDB(callback) {
+  if (callback) callback(null, db);
+  return db;
+}
+
+// ── AVVIO ───────────────────────────────────────────────────
+caricaDB();
+setInterval(flush, FLUSH_INTERVAL);
+
+// Salva prima di uscire (Ctrl+C)
+process.on('SIGINT', () => {
+  console.log('\n[DB] Salvataggio finale...');
+  salvaSync();
+  process.exit(0);
+});
+process.on('SIGTERM', () => { salvaSync(); process.exit(0); });
 
 module.exports = { leggiDB, scriviDB };
